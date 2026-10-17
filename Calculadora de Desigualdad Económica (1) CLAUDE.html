@@ -1,0 +1,175 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Calculadora de Desigualdad Económica</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#eef2f9;--card:#fff;--tx:#1b2438;--mu:#5d6882;--br:#d7deee;--ac:#4f46e5;--ac2:#0ea5e9;--wa:#b45309}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1426;--card:#19203a;--tx:#e8ecf8;--mu:#9aa5c4;--br:#2c3558;--ac:#818cf8;--ac2:#38bdf8;--wa:#fbbf24}}
+:root[data-theme="dark"]{--bg:#0f1426;--card:#19203a;--tx:#e8ecf8;--mu:#9aa5c4;--br:#2c3558;--ac:#818cf8;--ac2:#38bdf8;--wa:#fbbf24}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.5}
+header{background:linear-gradient(135deg,#4f46e5,#0ea5e9);color:#fff;padding:28px 18px;text-align:center}header h1{margin:0;font-size:1.9rem}header h2{margin:4px 0 8px;font-weight:500;font-size:1.05rem;opacity:.95}header p{max-width:720px;margin:0 auto;font-size:.92rem;opacity:.92}
+main{max-width:1100px;margin:auto;padding:14px;display:grid;gap:14px}
+.card{background:var(--card);border:1px solid var(--br);border-radius:14px;padding:16px;min-width:0}.card h3{margin:0 0 10px;font-size:1.05rem}.card h3 b{color:var(--ac)}
+.g2{display:grid;gap:14px;grid-template-columns:1fr 1fr}@media(max-width:760px){.g2{grid-template-columns:1fr}}
+label{font-size:.82rem;color:var(--mu);display:block;margin-bottom:3px}input,select,textarea{width:100%;padding:10px;border:1px solid var(--br);border-radius:9px;background:var(--bg);color:var(--tx);font:inherit}textarea{min-height:90px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end}.row>*{flex:1 1 150px}
+button{cursor:pointer;border:0;border-radius:10px;padding:10px 14px;font:inherit;font-weight:600;background:var(--ac);color:#fff}button.s{background:var(--bg);color:var(--tx);border:1px solid var(--br)}button.d{background:#dc2626}
+.kp{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:260px;margin:10px 0}.kp button{background:var(--bg);color:var(--tx);border:1px solid var(--br);font-size:1.2rem;padding:12px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.chip{background:var(--bg);border:1px solid var(--br);border-radius:99px;padding:3px 6px 3px 12px;font-size:.85rem}.chip span{cursor:pointer;color:#dc2626;font-weight:700;padding:0 6px}
+.msg{padding:9px 12px;border-radius:9px;font-size:.88rem;margin-top:8px}.err{background:#fee2e2;color:#991b1b}.warn{background:#fef3c7;color:#92400e}
+#st{font-weight:700;padding:10px 14px;border-radius:10px;background:var(--bg);border:1px dashed var(--ac)}
+table{width:100%;border-collapse:collapse;font-size:.88rem}th,td{padding:6px 8px;border-bottom:1px solid var(--br);text-align:right}th:first-child,td:first-child{text-align:left}.sc{overflow-x:auto}
+.big{font-size:3.2rem;font-weight:800;color:var(--ac);line-height:1}.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.kpi div{background:var(--bg);border-radius:10px;padding:8px;text-align:center;font-size:.8rem;color:var(--mu)}.kpi b{display:block;font-size:1.15rem;color:var(--tx)}
+.scale{position:relative;height:30px;border-radius:8px;overflow:hidden;display:flex;margin:34px 0 4px}.scale i{display:block;height:100%}.mk{position:absolute;top:-28px;transform:translateX(-50%);font-size:.8rem;font-weight:700;white-space:nowrap}.mk:after{content:"▼";display:block;text-align:center}
+.lab{display:flex;font-size:.72rem;color:var(--mu);text-align:center}.lab span{overflow:hidden}.ticks{position:relative;height:16px;font-size:.72rem;color:var(--mu)}.ticks span{position:absolute;transform:translateX(-50%)}
+canvas{width:100%;display:block;border-radius:10px;background:var(--bg)}p.n{color:var(--mu);font-size:.85rem;margin:6px 0}.hid{display:none}
+.proc li{margin-bottom:6px}code{background:var(--bg);padding:1px 5px;border-radius:5px;word-break:break-word}
+body{background:radial-gradient(circle at 10% 0,rgba(79,70,229,.16),transparent 40%),radial-gradient(circle at 90% 20%,rgba(236,72,153,.14),transparent 40%),radial-gradient(circle at 50% 100%,rgba(14,165,233,.16),transparent 45%),var(--bg);background-attachment:fixed}
+header{background:linear-gradient(120deg,#6d28d9,#4f46e5 35%,#0ea5e9 70%,#10b981);box-shadow:0 6px 24px rgba(79,70,229,.35)}header h1{text-shadow:0 2px 8px rgba(0,0,0,.25)}
+.card{border-top:5px solid var(--k,#4f46e5);box-shadow:0 4px 14px rgba(40,50,100,.10);background:linear-gradient(180deg,color-mix(in srgb,var(--k,#4f46e5) 9%,var(--card)),var(--card) 90px)}.card h3 b{color:#fff;background:var(--k,#4f46e5);border-radius:50%;display:inline-block;width:28px;height:28px;line-height:28px;text-align:center;margin-right:4px}
+#c1{--k:#4f46e5}#res>.g2:first-child>.card:nth-child(1){--k:#0ea5e9}#res>.g2:first-child>.card:nth-child(2){--k:#ec4899}#res>.card:nth-child(2){--k:#8b5cf6}#res>.g2:nth-child(3)>.card:nth-child(1){--k:#f59e0b}#res>.g2:nth-child(3)>.card:nth-child(2){--k:#10b981}#res>.card:nth-child(4){--k:#06b6d4}#res>.card:nth-child(5){--k:#f97316}#res>.card:nth-child(6){--k:#16a34a}#res>.card:nth-child(7){--k:#64748b}
+button{background:linear-gradient(135deg,#4f46e5,#7c3aed);box-shadow:0 3px 8px rgba(79,70,229,.3)}button.s{background:var(--card);box-shadow:none;border:2px solid var(--ac);color:var(--ac)}button.d{background:linear-gradient(135deg,#ef4444,#dc2626)}#calc{background:linear-gradient(135deg,#10b981,#0ea5e9)}#dl{background:linear-gradient(135deg,#f59e0b,#ef4444)}
+.kp button{border:0;color:#fff;box-shadow:none;background:linear-gradient(135deg,#6366f1,#0ea5e9)}.kp button:nth-child(3n+2){background:linear-gradient(135deg,#8b5cf6,#ec4899)}.kp button:nth-child(3n){background:linear-gradient(135deg,#10b981,#06b6d4)}
+.chip{background:linear-gradient(135deg,rgba(99,102,241,.18),rgba(14,165,233,.18));border-color:var(--ac);font-weight:600}
+.big{background:linear-gradient(120deg,#4f46e5,#ec4899,#f59e0b);-webkit-background-clip:text;background-clip:text;color:transparent;font-size:3.8rem}
+.kpi div:nth-child(1){background:rgba(239,68,68,.16)}.kpi div:nth-child(2){background:rgba(14,165,233,.16)}.kpi div:nth-child(3){background:rgba(16,185,129,.16)}
+#st{background:linear-gradient(90deg,rgba(99,102,241,.18),rgba(16,185,129,.18))}
+th{background:rgba(99,102,241,.18)}tr:nth-child(even) td{background:rgba(99,102,241,.06)}
+.scale{height:36px;box-shadow:0 2px 8px rgba(0,0,0,.2)}.mk{color:#fff;background:#111827;padding:2px 8px;border-radius:6px;margin-top:-4px}.mk:after{color:#111827;margin-top:-2px}
+canvas{background:linear-gradient(135deg,rgba(99,102,241,.10),rgba(16,185,129,.10))}
+@media print{header,#tools,.noprint{display:none!important}body{background:#fff;color:#000}.card{break-inside:avoid}}
+</style></head><body>
+<header><h1>Calculadora de Desigualdad Económica</h1><h2>Coeficiente de Gini • Curva de Lorenz</h2><p>Analiza la distribución de ingresos mediante el Coeficiente de Gini y la Curva de Lorenz. Los resultados se generan exclusivamente a partir de los datos ingresados.</p></header>
+<main>
+<div class="card noprint" id="c1"><h3><b>①</b> Contexto e ingreso de datos</h3>
+<div class="row"><div><label>País / contexto</label><input id="pais" value="Colombia"></div><div><label>Moneda</label><select id="mon"><option value="COP">Peso colombiano (COP)</option><option value="USD">Dólar estadounidense (USD)</option><option value="EUR">Euro (EUR)</option></select></div></div>
+<div class="g2" style="margin-top:14px"><div><h4 style="margin:0 0 6px">Ingreso individual</h4><input id="ind" inputmode="numeric" placeholder="Ej: 3500000"><div class="kp" id="kp"></div><button id="add">Ingresar ingreso</button></div>
+<div><h4 style="margin:0 0 6px">Copiar y pegar varios ingresos</h4><textarea id="pas" placeholder="Pega tus datos desde Excel, Word, Google Sheets u otra aplicación."></textarea><p class="n">Acepta comas, punto y coma, saltos de línea, tabulaciones y espacios. «1.300.000» se lee como un solo valor.</p><button id="addp" class="s">Agregar pegados</button></div></div>
+<div id="msgs"></div><h4 style="margin:12px 0 0" id="nreg">Ingresos registrados (0)</h4><div class="chips" id="chips"></div>
+<div class="row" style="margin-top:14px" id="tools"><button id="calc">Calcular Gini</button><button id="ej" class="s">Cargar ejemplo de ingresos</button><button id="lim" class="d">Limpiar datos</button><button id="csvb" class="s">📁 Cargar CSV</button><input type="file" id="csv" accept=".csv,.txt" class="hid"></div>
+<div style="margin-top:12px" id="st">ESPERANDO DATOS...</div></div>
+<div id="res" class="hid" style="display:none;gap:14px;grid-template-columns:1fr">
+<div class="g2"><div class="card"><h3><b>②</b> Resumen de los ingresos analizados</h3><table id="tres"></table></div>
+<div class="card"><h3><b>③</b> Coeficiente de Gini</h3><div class="big" id="gv">0,0000</div><p style="margin:6px 0;font-weight:700" id="gr"></p>
+<div class="kpi"><div>Área A<b id="aA"></b></div><div>Área B<b id="aB"></b></div><div>A + B<b id="aS"></b></div></div><p class="n">G = A / (A + B). Con ejes normalizados A + B = 0,5. Fórmula: G = Σ[(2i − n − 1)·xᵢ] / (n·Σxᵢ) ≡ ΣΣ|xᵢ − xⱼ| / (2n²μ).</p><p class="n">Área A: entre la línea de igualdad perfecta y la Curva de Lorenz. Área B: bajo la Curva de Lorenz.</p>
+<div class="scale" id="scale"></div><div class="ticks" id="tk"></div><div class="lab" id="lb"></div><p class="n"><b>Rangos orientativos para fines didácticos</b>, no una clasificación universal. Mapa de rangos del Coeficiente de Gini.</p></div></div>
+<div class="card"><h3><b>④</b> Curva de Lorenz</h3><canvas id="cv" width="900" height="560"></canvas><p class="n" id="hov">Pasa el cursor (o toca) sobre un punto para ver su información.</p></div>
+<div class="g2"><div class="card"><h3><b>⑤</b> Relación entre Gini y Curva de Lorenz</h3><p>La diagonal representa igualdad perfecta; la Curva de Lorenz representa la distribución acumulada de los ingresos.</p><p><b>Mayor separación</b> → mayor desigualdad → Gini más alto.<br><b>Menor separación</b> → menor desigualdad → Gini más bajo.</p><p>El Área A (sombreada en el gráfico) es la que queda entre la línea de igualdad y la curva; el Gini es esa área dividida por 0,5.</p></div>
+<div class="card"><h3><b>⑧</b> Análisis de la desigualdad económica</h3><div id="ana"></div></div></div>
+<div class="card"><h3><b>⑥</b> Tabla de distribución acumulada</h3><div class="sc"><table id="tab"></table></div></div>
+<div class="card"><h3><b>⑦</b> Procedimiento</h3><ol class="proc" id="proc"></ol></div>
+<div class="card"><h3><b>⑨</b> Conclusión</h3><div id="con"></div></div>
+<div class="card noprint"><h3>Herramientas</h3><div class="row"><button id="cp" class="s">Copiar resultado</button><button id="dl">Descargar informe</button><button id="pr" class="s">Imprimir / Guardar PDF</button></div><div id="tmsg"></div></div>
+</div></main>
+<script>
+// ===== Estado =====
+let data=[],R=null;const $=id=>document.getElementById(id);
+const fmtN=(x,d=2)=>x.toLocaleString('es-CO',{minimumFractionDigits:d,maximumFractionDigits:d});
+const money=x=>{const c=$('mon').value;return new Intl.NumberFormat('es-CO',{style:'currency',currency:c,maximumFractionDigits:c==='COP'?0:2}).format(x)};
+const pct=x=>fmtN(x*100,2)+'%',g4=x=>fmtN(x,4);
+const RANGOS=[[0,.2,'Muy baja','#22c55e'],[.2,.3,'Baja','#84cc16'],[.3,.4,'Moderada','#facc15'],[.4,.5,'Alta','#f97316'],[.5,1,'Muy alta','#dc2626']];
+const rango=g=>(RANGOS.find(r=>g<r[1])||RANGOS[4]);
+// ===== Parser: separa por ; saltos tab espacios y comas; respeta separadores de miles =====
+function parse(txt){const ok=[],bad=[];
+ txt.split(/[;\n\r\t ]+/).forEach(tok=>{tok=tok.replace(/[$€]|COP|USD|EUR/gi,'').trim();if(!tok)return;
+  let parts=[tok];
+  if(tok.includes(',')&&!/^-?\d{1,3}(,\d{3})+(\.\d+)?$/.test(tok)&&!/^-?\d+,\d{1,2}$/.test(tok)&&!/^-?\d{1,3}(\.\d{3})+,\d+$/.test(tok))parts=tok.split(',').filter(Boolean);
+  parts.forEach(p=>{let v=null;
+   if(/^-?\d{1,3}(\.\d{3})+(,\d+)?$/.test(p))v=parseFloat(p.replace(/\./g,'').replace(',','.'));
+   else if(/^-?\d{1,3}(,\d{3})+(\.\d+)?$/.test(p))v=parseFloat(p.replace(/,/g,''));
+   else if(/^-?\d+([.,]\d+)?$/.test(p))v=parseFloat(p.replace(',','.'));
+   if(v===null||!isFinite(v))bad.push(p);else ok.push(v)})});
+ return{ok,bad}}
+function msg(html,cls){$('msgs').innerHTML=html?`<div class="msg ${cls}">${html}</div>`:''}
+function addTxt(txt){const{ok,bad}=parse(txt);data.push(...ok);let m='';
+ if(bad.length)m+=`<div class="msg err">Valores no reconocidos (no se incluyeron): ${bad.join(', ')}.</div>`;
+ $('msgs').innerHTML=m;render()}
+// ===== Chips y render =====
+function render(){
+ $('nreg').textContent=`Ingresos registrados (${data.length})`;
+ $('chips').innerHTML=data.map((v,i)=>`<div class="chip">${money(v)}<span data-i="${i}">×</span></div>`).join('');
+ const m=$('msgs'),neg=data.some(v=>v<0);
+ if(neg&&!m.querySelector('.warn'))m.insertAdjacentHTML('beforeend','<div class="msg warn">Hay ingresos negativos. Verifica que sean apropiados para el contexto, porque la interpretación habitual del Gini de ingresos se realiza con variables no negativas.</div>');
+ if(R||data.length)compute(true)}
+$('chips').onclick=e=>{const i=e.target.dataset.i;if(i!==undefined){data.splice(+i,1);$('msgs').innerHTML='';render();if(!data.length)reset()}};
+function reset(){R=null;$('res').style.display='none';$('st').textContent='ESPERANDO DATOS...'}
+// ===== Cálculo =====
+function compute(silent){
+ if(data.length<2){if(!silent)msg('Se necesitan al menos 2 datos válidos para calcular.','err');reset();return}
+ const s=[...data].sort((a,b)=>a-b),n=s.length,T=s.reduce((a,b)=>a+b,0);
+ if(T<=0){msg('El ingreso total es menor o igual a cero: no es posible calcular el Gini ni la Curva de Lorenz.','err');reset();return}
+ const mean=T/n,med=n%2?s[(n-1)/2]:(s[n/2-1]+s[n/2])/2;
+ let c=0;const cum=s.map(v=>c+=v),P=[0],L=[0];cum.forEach((v,i)=>{P.push((i+1)/n);L.push(v/T)});
+ let B=0;for(let i=1;i<=n;i++)B+=(P[i]-P[i-1])*(L[i]+L[i-1])/2;const A=.5-B;
+ let num=0;s.forEach((x,i)=>num+=(2*(i+1)-n-1)*x);const G=num/(n*T);
+ const Lat=p=>{const k=p*n,i=Math.floor(k+1e-9);if(i>=n)return 1;const f=k-i;return L[i]+f*(L[i+1]-L[i])};
+ R={s,n,T,mean,med,min:s[0],max:s[n-1],cum,P,L,A,B,G,Ga:A/(A+B),l50:Lat(.5),l20:Lat(.2),pais:$('pais').value.trim()||'(sin especificar)'};
+ $('res').style.display='grid';show();
+ $('st').textContent=`CALCULADO — ${R.pais} — ${n} datos válidos · validados · ordenados · curva generada · Gini calculado`}
+function show(){if(!R)return;const r=R,rg=rango(r.G);
+ $('tres').innerHTML=`<tr><th>Indicador</th><th>Resultado</th></tr>`+[['Personas/hogares',r.n],['Ingreso mínimo',money(r.min)],['Ingreso máximo',money(r.max)],['Ingreso promedio',money(r.mean)],['Mediana',money(r.med)],['Ingreso total',money(r.T)]].map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td></tr>`).join('');
+ $('gv').textContent=g4(r.G);$('gr').innerHTML=`📍 Gini = ${g4(r.G)} — Rango orientativo: Desigualdad ${rg[2].toLowerCase()}`;
+ $('aA').textContent=g4(r.A);$('aB').textContent=g4(r.B);$('aS').textContent=g4(r.A+r.B);
+ $('scale').innerHTML=RANGOS.map(x=>`<i style="width:${(x[1]-x[0])*100}%;background:${x[3]}"></i>`).join('')+`<div class="mk" style="left:${Math.min(Math.max(r.G,0),1)*100}%">Gini = ${g4(r.G)}</div>`;
+ $('tk').innerHTML=[0,.2,.3,.4,.5,1].map(v=>`<span style="left:${v*100}%">${fmtN(v,2)}</span>`).join('');
+ $('lb').innerHTML=RANGOS.map(x=>`<span style="width:${(x[1]-x[0])*100}%">${x[2]}</span>`).join('');
+ $('tab').innerHTML=`<tr><th>Orden</th><th>Ingreso</th><th>% acum. población</th><th>Ingreso acumulado</th><th>% acum. ingresos</th></tr>`+r.s.map((v,i)=>`<tr><td>${i+1}</td><td>${money(v)}</td><td>${pct(r.P[i+1])}</td><td>${money(r.cum[i])}</td><td>${pct(r.L[i+1])}</td></tr>`).join('');
+ const t=texts();$('ana').innerHTML=t.ana;$('con').innerHTML=t.con;
+ $('proc').innerHTML=`<li><b>Paso 1. Datos originales:</b> ${data.map(money).join('; ')}.</li><li><b>Paso 2. Ordenamiento (menor a mayor):</b> ${r.s.map(money).join('; ')}.</li><li><b>Paso 3. Estadísticos:</b> n = ${r.n}; media = ${money(r.mean)}; mediana = ${money(r.med)}; mínimo = ${money(r.min)}; máximo = ${money(r.max)}; total = ${money(r.T)}.</li><li><b>Paso 4. Acumulados:</b> ingreso acumulado, % acumulado de población (i/n) y % acumulado de ingresos (acumulado/total); ver la tabla ⑥.</li><li><b>Paso 5. Curva de Lorenz:</b> se grafican los puntos (i/n, acumulado/total) más el origen (0,0), unidos por segmentos, frente a la diagonal Y = X.</li><li><b>Paso 6. Áreas:</b> B (regla del trapecio) = ${g4(r.B)}; A = 0,5 − B = ${g4(r.A)}; A + B = ${g4(r.A+r.B)}.</li><li><b>Paso 7. Coeficiente de Gini:</b> G = A/(A+B) = ${g4(r.A)}/${g4(r.A+r.B)} = ${g4(r.Ga)}. Fórmula estadística: G = Σ(2i − n − 1)xᵢ / (nΣxᵢ) = ${g4(r.G)} (coinciden).</li><li><b>Paso 8. Resultado:</b> Gini = <b>${g4(r.G)}</b>.</li>`;
+ draw()}
+function texts(){const r=R,rg=rango(r.G),lo=r.l50,dif=r.max-r.min,ratio=r.max/r.mean,mm=r.mean-r.med;
+ const mmT=Math.abs(mm)<r.mean*.02?'La media y la mediana son muy similares, lo que sugiere una distribución relativamente simétrica.':mm>0?`El ingreso promedio (${money(r.mean)}) es superior a la mediana (${money(r.med)}), lo que puede indicar que algunos valores altos están elevando el promedio.`:`El ingreso promedio (${money(r.mean)}) es inferior a la mediana (${money(r.med)}), lo que puede indicar la presencia de valores bajos que reducen el promedio.`;
+ const ext=ratio>3?'El valor máximo supera ampliamente al promedio, lo que apunta a una cola alta en la distribución.':ratio>1.8?'El valor máximo es moderadamente superior al promedio.':'El valor máximo está cerca del promedio.';
+ const sep=r.G>.4?'una separación marcada':r.G>.3?'una separación intermedia':'una separación pequeña';
+ const ana=`<p>En <b>${r.pais}</b> se analizaron <b>${r.n}</b> observaciones, con ingresos entre ${money(r.min)} y ${money(r.max)} (diferencia: ${money(dif)}), media de ${money(r.mean)}, mediana de ${money(r.med)} y total de ${money(r.T)}.</p><p>El Gini es <b>${g4(r.G)}</b>, en el rango orientativo de desigualdad <b>${rg[2].toLowerCase()}</b> (rangos solo con fines didácticos; no implican que un valor sea «bueno» o «malo»). La Curva de Lorenz muestra ${sep} respecto de la línea de igualdad: Área A = ${g4(r.A)} y Área B = ${g4(r.B)}.</p><p>El 50% inferior concentra el <b>${pct(lo)}</b> del ingreso total y el 20% inferior el <b>${pct(r.l20)}</b> (con igualdad perfecta serían 50% y 20%).</p><p>${mmT} ${ext} (máximo/promedio = ${fmtN(ratio,2)}). Estas comparaciones son complementarias y no determinan por sí solas el nivel de desigualdad.</p><p class="n">Interpretación: Gini = 0 indica igualdad perfecta; cerca de 0, distribución relativamente uniforme; cerca de 1, mayor concentración relativa del ingreso. Debe leerse junto con media, mediana, extremos y la Curva de Lorenz.</p>`;
+ const con=`<p>El Coeficiente de Gini obtenido fue <b>${g4(r.G)}</b>, ubicado en el rango orientativo de desigualdad <b>${rg[2].toLowerCase()}</b>. La Curva de Lorenz queda por debajo de la diagonal, y su distancia a ella (Área A = ${g4(r.A)} de un máximo de 0,5) es la que se traduce en ese valor. En términos concretos, la mitad de ${r.n>2?'las personas/hogares':'los casos'} con menores ingresos recibe el ${pct(lo)} del total, y el 20% más bajo solo el ${pct(r.l20)}.</p><p>Los estadísticos son coherentes con este resultado: ${mm>0?'la media supera a la mediana, señal de valores altos que tiran del promedio':mm<0?'la media está por debajo de la mediana':'media y mediana coinciden'}, y el máximo equivale a ${fmtN(ratio,2)} veces el promedio. En conjunto, el Gini resume cuánto se aleja la distribución de la igualdad, mientras que la Curva de Lorenz y los estadísticos muestran dónde se concentra el ingreso. Con ${r.n} datos, la conclusión es descriptiva y no debe generalizarse sin una muestra representativa.</p>`;
+ return{ana,con}}
+// ===== Gráfico Lorenz (Canvas) =====
+const M={l:62,r:20,t:40,b:56};let pts=[];
+function draw(){const cv=$('cv'),x=cv.getContext('2d'),W=cv.width,H=cv.height,pw=W-M.l-M.r,ph=H-M.t-M.b,r=R;
+ const css=getComputedStyle(document.body),tx=css.color,gr='rgba(130,140,170,.3)';
+ const X=p=>M.l+p*pw,Y=q=>M.t+(1-q)*ph;x.clearRect(0,0,W,H);x.font='15px system-ui';
+ x.fillStyle=tx;x.textAlign='center';x.font='bold 18px system-ui';x.fillText('Curva de Lorenz — '+r.pais,W/2,24);x.font='14px system-ui';
+ for(let i=0;i<=10;i++){const v=i/10;x.strokeStyle=gr;x.beginPath();x.moveTo(X(v),Y(0));x.lineTo(X(v),Y(1));x.moveTo(X(0),Y(v));x.lineTo(X(1),Y(v));x.stroke();
+  x.fillStyle=tx;x.textAlign='center';x.fillText(i*10+'%',X(v),Y(0)+18);x.textAlign='right';x.fillText(i*10+'%',X(0)-8,Y(v)+5)}
+ x.textAlign='center';x.fillText('Porcentaje acumulado de personas / hogares (%)',M.l+pw/2,H-10);
+ x.save();x.translate(14,M.t+ph/2);x.rotate(-Math.PI/2);x.fillText('Porcentaje acumulado de ingresos (%)',0,0);x.restore();
+ const cl=q=>Math.max(0,Math.min(1,q));
+ x.fillStyle='rgba(239,68,68,.22)';x.beginPath();x.moveTo(X(0),Y(0));x.lineTo(X(1),Y(1));for(let i=r.n;i>=0;i--)x.lineTo(X(r.P[i]),Y(cl(r.L[i])));x.closePath();x.fill();
+ x.strokeStyle='#64748b';x.setLineDash([7,5]);x.lineWidth=2;x.beginPath();x.moveTo(X(0),Y(0));x.lineTo(X(1),Y(1));x.stroke();x.setLineDash([]);
+ x.strokeStyle='#4f46e5';x.lineWidth=3.5;x.beginPath();r.P.forEach((p,i)=>{i?x.lineTo(X(p),Y(cl(r.L[i]))):x.moveTo(X(p),Y(cl(r.L[i])))});x.stroke();
+ pts=r.P.map((p,i)=>({px:X(p),py:Y(cl(r.L[i])),p,l:r.L[i]}));
+ x.fillStyle='#0ea5e9';pts.forEach(o=>{x.beginPath();x.arc(o.px,o.py,5,0,7);x.fill()});
+ x.textAlign='left';x.fillStyle='#4f46e5';x.fillRect(X(.05),Y(.97),22,4);x.fillStyle=tx;x.fillText('Curva de Lorenz',X(.05)+28,Y(.97)+6);
+ x.fillStyle='#64748b';x.fillRect(X(.05),Y(.91),22,4);x.fillStyle=tx;x.fillText('Igualdad perfecta (Y = X)',X(.05)+28,Y(.91)+6);
+ x.fillStyle='rgba(239,68,68,.5)';x.fillRect(X(.05),Y(.85)-4,22,10);x.fillStyle=tx;x.fillText('Área A',X(.05)+28,Y(.85)+6)}
+function hover(e){if(!R)return;const cv=$('cv'),b=cv.getBoundingClientRect(),t=e.touches?e.touches[0]:e,mx=(t.clientX-b.left)*cv.width/b.width,my=(t.clientY-b.top)*cv.height/b.height;
+ let best=null,bd=1e9;pts.forEach(o=>{const d=Math.hypot(o.px-mx,o.py-my);if(d<bd){bd=d;best=o}});
+ if(best&&bd<40)$('hov').innerHTML=`<b>${fmtN(best.p*100,1)}% de los hogares → ${fmtN(best.l*100,2)}% del ingreso acumulado.</b>`}
+$('cv').addEventListener('mousemove',hover);$('cv').addEventListener('touchstart',hover,{passive:true});
+// ===== Reporte / copiar / imprimir =====
+function resumen(){const r=R,t=texts(),st=h=>h.replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' ');
+ return `País: ${r.pais}\nGini: ${g4(r.G)}\nÁrea A: ${g4(r.A)}\nÁrea B: ${g4(r.B)}\nObservaciones: ${r.n}\nMínimo: ${money(r.min)}\nMáximo: ${money(r.max)}\nMedia: ${money(r.mean)}\nMediana: ${money(r.med)}\n\nAnálisis:\n${st(t.ana.replace(/<\/p>/g,'\n'))}\nConclusión:\n${st(t.con.replace(/<\/p>/g,'\n'))}`}
+function tmsg(t){$('tmsg').innerHTML=`<p class="n">${t}</p>`}
+$('cp').onclick=async()=>{if(!R)return tmsg('Primero calcula el Gini.');const t=resumen();try{await navigator.clipboard.writeText(t);tmsg('Resultado copiado al portapapeles.')}catch(e){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();let ok=false;try{ok=document.execCommand('copy')}catch(_){}a.remove();tmsg(ok?'Resultado copiado.':'No se pudo copiar automáticamente.')}};
+$('pr').onclick=()=>{if(!R)return tmsg('Primero calcula el Gini.');window.print()};
+$('dl').onclick=()=>{if(!R)return tmsg('Primero calcula el Gini.');const r=R,t=texts(),img=$('cv').toDataURL('image/png'),rg=rango(r.G);
+ const html=`<!DOCTYPE html><html lang="es"><meta charset="utf-8"><title>Informe Gini</title><style>body{font-family:Georgia,serif;max-width:850px;margin:30px auto;padding:0 16px;color:#111}table{border-collapse:collapse;width:100%;font-size:13px}td,th{border:1px solid #bbb;padding:4px 7px;text-align:right}h1,h2{font-family:system-ui}img{max-width:100%}.sc{display:flex;height:22px}.sc i{display:block}</style>
+<h1>Informe de Desigualdad Económica: Coeficiente de Gini y Curva de Lorenz</h1><p><b>País/contexto:</b> ${r.pais} · <b>Moneda:</b> ${$('mon').value} · <b>Observaciones:</b> ${r.n}</p>
+<h2>Datos utilizados</h2><p>${data.map(money).join('; ')}</p><h2>Datos ordenados</h2><p>${r.s.map(money).join('; ')}</p>
+<h2>Estadísticos</h2><p>Mínimo ${money(r.min)} · Máximo ${money(r.max)} · Media ${money(r.mean)} · Mediana ${money(r.med)} · Total ${money(r.T)}</p>
+<h2>Tabla acumulada</h2>${$('tab').outerHTML}<h2>Fórmula</h2><p>G = Σ[(2i − n − 1)xᵢ] / (nΣxᵢ) = A/(A+B)</p>
+<p>Área A = ${g4(r.A)} · Área B = ${g4(r.B)} · A+B = ${g4(r.A+r.B)}</p><h2>Coeficiente de Gini: ${g4(r.G)} (${rg[2]})</h2>
+<div class="sc">${RANGOS.map(x=>`<i style="width:${(x[1]-x[0])*100}%;background:${x[3]}"></i>`).join('')}</div><p style="font-size:12px">Muy baja 0–0,20 · Baja 0,20–0,30 · Moderada 0,30–0,40 · Alta 0,40–0,50 · Muy alta 0,50–1,00 (rangos orientativos didácticos). Marcador en ${g4(r.G)}.</p>
+<h2>Curva de Lorenz</h2><img src="${img}" alt="Curva de Lorenz"><h2>Análisis e interpretación</h2>${t.ana}<h2>Conclusión</h2>${t.con}</html>`;
+ try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));a.download='informe_gini.html';document.body.appendChild(a);a.click();a.remove();tmsg('Informe generado. Si tu navegador no lo descargó, usa «Imprimir / Guardar PDF».')}catch(e){tmsg('No se pudo descargar; usa «Imprimir / Guardar PDF».')}};
+// ===== Entradas =====
+const kp=$('kp');['7','8','9','4','5','6','1','2','3','0','','⌫'].forEach(k=>{const b=document.createElement('button');b.textContent=k;if(!k)b.style.visibility='hidden';b.onclick=()=>{const i=$('ind');i.value=k==='⌫'?i.value.slice(0,-1):i.value+k};kp.appendChild(b)});
+$('add').onclick=()=>{const v=$('ind').value.trim();if(!v)return msg('El campo de ingreso está vacío.','err');const{ok,bad}=parse(v);if(bad.length||ok.length!==1)return msg('Valor no reconocido: '+(bad.join(', ')||v),'err');data.push(ok[0]);$('ind').value='';msg('');render()};
+$('ind').addEventListener('keydown',e=>{if(e.key==='Enter')$('add').click()});
+$('addp').onclick=()=>{if(!$('pas').value.trim())return msg('El área de pegado está vacía.','err');addTxt($('pas').value);$('pas').value=''};
+$('calc').onclick=()=>{if(!data.length)return msg('No hay datos para calcular.','err');compute(false)};
+$('ej').onclick=()=>{data=[];$('pais').value='Colombia';$('msgs').innerHTML='';addTxt('1300000, 1500000, 1800000, 2000000, 2500000, 3000000, 4000000, 5500000, 8000000, 12000000');compute(false)};
+$('lim').onclick=()=>{data=[];msg('');render();reset()};
+$('csvb').onclick=()=>$('csv').click();
+$('csv').onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{let t=String(rd.result).replace(/^\uFEFF/,'').split(/\r?\n/);if(t.length&&/[A-Za-zÁ-ú]/.test(t[0])&&!/\d/.test(t[0]))t.shift();addTxt(t.join('\n').replace(/,/g,'\n'));compute(false)};rd.readAsText(f);e.target.value=''};
+$('pais').oninput=()=>{if(R)compute(true)};$('mon').onchange=()=>{render()};
+render();
+</script></body></html>
